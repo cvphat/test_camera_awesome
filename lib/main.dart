@@ -31,9 +31,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> videos = [
-    '/sdcard/Android/data/com.example.camera_app/cache/1679628540642.mp4'
-  ];
+  List<String> videos = [];
 
   @override
   Widget build(BuildContext context) {

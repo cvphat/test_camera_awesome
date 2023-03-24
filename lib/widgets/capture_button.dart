@@ -31,6 +31,12 @@ class _CaptureButtonState extends State<CaptureButton>
       if (event != null && event.status == MediaCaptureStatus.success) {
         if (File(event.filePath).existsSync()) {
           Navigator.pop(context, event.filePath);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('File ${event.filePath} is not exist'),
+            ),
+          );
         }
       }
     });
