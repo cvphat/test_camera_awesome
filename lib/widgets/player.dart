@@ -20,9 +20,9 @@ class _PlayerState extends State<Player> {
   @override
   void initState() {
     if (File(widget.path).existsSync()) {
-      state = 'is exist';
+      state = 'exist';
     } else {
-      state = 'is not exist';
+      state = 'does not exist';
     }
     _controller = VideoPlayerController.file(File(widget.path));
     _controller!.addListener(() {

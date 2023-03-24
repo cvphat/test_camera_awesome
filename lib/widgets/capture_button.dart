@@ -34,7 +34,7 @@ class _CaptureButtonState extends State<CaptureButton>
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('File ${event.filePath} is not exist'),
+              content: Text('File ${event.filePath} does not exist'),
             ),
           );
         }
