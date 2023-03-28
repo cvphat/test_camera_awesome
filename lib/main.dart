@@ -50,16 +50,56 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: InkWell(
                         child: Text(e),
+                        onDoubleTap: () {
+                          setState(() {
+                            videos.remove(e);
+                          });
+                        },
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HeroPage(
-                                path: e,
-                              ),
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => ListView(
+                              children: [
+                                ListTile(
+                                  onTap: () {
+                                    OpenFile.open(e);
+                                  },
+                                  title: const Text('Default Player'),
+                                  shape: const Border(bottom: BorderSide()),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HeroPage(
+                                          path: e,
+                                          type: PlayerType.videoPlayer,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  title: const Text('Video Player'),
+                                  shape: const Border(bottom: BorderSide()),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HeroPage(
+                                          path: e,
+                                          type: PlayerType.podPlayer,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  title: const Text('Pod Player'),
+                                  shape: const Border(bottom: BorderSide()),
+                                ),
+                              ],
                             ),
                           );
-                          // OpenFile.open(e);
                         },
                       ),
                     ),
