@@ -40,6 +40,7 @@ dependencies:
   path_provider: ^2.0.14
   better_open_file: ^3.6.4
   pod_player: ^0.1.0
+  video_thumbnail: ^0.5.3
 
 dependency_overrides: 
   video_player_android: 2.3.4

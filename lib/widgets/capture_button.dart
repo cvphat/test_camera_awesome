@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class CaptureButton extends StatefulWidget {
   final CameraState state;
@@ -30,7 +31,12 @@ class _CaptureButtonState extends State<CaptureButton>
           'CamerawesomePlugin: ${event?.exception}; ${event?.isRecordingVideo}; ${event?.status}; ${event?.videoState};');
       if (event != null && event.status == MediaCaptureStatus.success) {
         if (File(event.filePath).existsSync()) {
-          Navigator.pop(context, event.filePath);
+          VideoThumbnail.thumbnailFile(video: event.filePath).then((value) {
+            Navigator.pop(context, {
+              'videoPath': event.filePath,
+              'thumnailPath': value!,
+            });
+          });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

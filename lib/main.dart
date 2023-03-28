@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:better_open_file/better_open_file.dart';
 import 'package:flutter/material.dart';
 import 'package:test_camera_awesome/camera_page.dart';
@@ -33,10 +35,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> videos = [];
+  List<Map<String, String>> videos = [];
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final height = size.width * 9 / 16;
     return Scaffold(
       body: Column(
         children: [
@@ -49,7 +53,26 @@ class _HomePageState extends State<HomePage> {
                         border: Border.all(),
                       ),
                       child: InkWell(
-                        child: Text(e),
+                        child: Container(
+                          height: height,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 2),
+                            borderRadius: BorderRadius.circular(4),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    2, 2), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Image.file(
+                            File(e['thumnailPath']!),
+                          ),
+                        ),
                         onDoubleTap: () {
                           setState(() {
                             videos.remove(e);
@@ -62,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 ListTile(
                                   onTap: () {
-                                    OpenFile.open(e);
+                                    OpenFile.open(e['videoPath']);
                                   },
                                   title: const Text('Default Player'),
                                   shape: const Border(bottom: BorderSide()),
@@ -73,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => HeroPage(
-                                          path: e,
+                                          path: e['videoPath']!,
                                           type: PlayerType.videoPlayer,
                                         ),
                                       ),
@@ -88,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => HeroPage(
-                                          path: e,
+                                          path: e['videoPath']!,
                                           type: PlayerType.podPlayer,
                                         ),
                                       ),
@@ -114,15 +137,15 @@ class _HomePageState extends State<HomePage> {
               child: ElevatedButton(
                 child: const Text('Open Camera'),
                 onPressed: () async {
-                  final path = await Navigator.push(
+                  final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const CameraPage(),
                     ),
                   );
-                  if (path != null) {
+                  if (result != null) {
                     setState(() {
-                      videos.add(path);
+                      videos.add(result);
                     });
                   }
                 },
