@@ -1,6 +1,8 @@
+import 'package:better_open_file/better_open_file.dart';
 import 'package:flutter/material.dart';
 import 'package:test_camera_awesome/camera_page.dart';
 
+import 'hero_page.dart';
 import 'widgets/player.dart';
 
 void main() {
@@ -42,7 +44,25 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               children: videos
                   .map(
-                    (e) => Player(path: e),
+                    (e) => Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                      ),
+                      child: InkWell(
+                        child: Text(e),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HeroPage(
+                                path: e,
+                              ),
+                            ),
+                          );
+                          // OpenFile.open(e);
+                        },
+                      ),
+                    ),
                   )
                   .toList(),
             ),
